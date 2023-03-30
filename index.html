@@ -16,18 +16,25 @@
     body {
       font-family: 'Josefin Sans', sans-serif;;
       margin: 0;
-      /* background-color: hsl(0, 36%, 70%);
-      background-color: hsl(0, 93%, 68%);
-      background-color: hsl(0, 6%, 24%); */
       background-image: linear-gradient(135deg, hsl(0, 0%, 100%), hsl(0, 100%, 98%));
-      /* background-image: linear-gradient(135deg, hsl(0, 80%, 86%), hsl(0, 74%, 74%)); */
 
     }
+
+    
 
     main {
       height:100vh;
       display: grid;
       grid-template-columns: 4fr 3fr;
+    }
+
+    .mhero {
+      display: none;
+      background-image: url(images/hero-mobile.jpg);
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 100vw;
+      height: 350px;
     }
 
     section {
@@ -60,49 +67,117 @@
       line-height: 1.5;
       margin-bottom: 2rem;
     }
+
+    form {
+      position: relative;
+    }
     
     input[type="email"] {
       background: inherit;
+      outline: none;
       border: 1px solid hsl(0, 36%, 70%);
       border-radius: 1.5rem;
       font-weight: 400;
       padding: 1rem 1.5rem;
       box-sizing: border-box;
       color: hsl(0, 36%, 70%);
-      width: 100%;
+      width: 90%;
     }
 
-    input[type="email"]::after {
-      background: linear-gradient(135deg, hsl(0, 80%, 86%), hsl(0, 74%, 74%));
-      padding: 1rem 2.5rem;
-      border-radius: 1.5rem;
-      box-sizing: border-box;
-      position: absolute;
-      height: 50px;
-      content: '';
-      left: 80%;
-      top: -3.1rem;
+
+    section .invalid {
+      border: 2px solid hsl(0, 93%, 68%);
+      background-image: url(images/icon-error.svg);
+      background-repeat: no-repeat;
+      background-position: 80% 50%;
     }
 
     input[type="image"] {
       background: linear-gradient(135deg, hsl(0, 80%, 86%), hsl(0, 74%, 74%));
-      padding: 1rem 2.5rem;
+      padding: 1rem 13%;
       border-radius: 1.5rem;
+      min-width: 4rem;
       box-sizing: border-box;
-      position: relative;
+      position: absolute;
       height: 50px;
       left: 80%;
-      top: -3.1rem;
+      top: 0%;
+      cursor: pointer;
     }
-    
 
-    .hero {
+    input[type="image"]:hover, 
+    input[type="image"]:focus {
+      background:#fad6d6;
+    }
+
+    .error-message {
+      color: hsl(0, 93%, 68%);
+      text-align: left;
+      font-weight: 400;
+      padding-left: 1.5rem;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+  
+    .dhero {
       background-image: url(images/hero-desktop.jpg);
       background-size: cover;
       background-repeat: no-repeat;
     }
 
+    .hidden {
+      display: none;
+    }
 
+    .shown {
+      display: block;
+    }
+
+    @media (max-width: 720px) {
+      main {
+      display: block;
+      }
+
+      section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 10% 0;
+      width: 100%;
+      }
+
+      section img {
+        margin-left: 1.7rem;
+        align-self:flex-start;
+        margin-bottom: 2rem;
+      }
+
+      .dhero {
+        display: none;
+      }
+      
+      .mhero {
+        display: block;
+      }
+
+
+      h1, p {
+        text-align: center;
+      }
+
+      h1 {
+        width: 90%;
+      }
+
+      p {
+        width: 70%;
+      }
+
+      form {
+        width: 70%;
+        margin: auto;
+      }
+    }
 
 
   </style>
@@ -111,25 +186,40 @@
   <main>
     <section>
       <img src="images/logo.svg" alt="">
+      <div class="mhero" src="images/hero-mobile.jpg"></div>
       <h1><span>We're</span> coming soon</h1>
     
       <p>Hello fellow shoppers! We're currently building our new fashion store.
         Add your email below to stay up-to-date with announcements and our launch deals.</p>
     
       <form action="">
-        <input type="email" placeholder="Email Address">
-        <!-- <input type="image" src="images/icon-arrow.svg" alt="submit"> -->
+        <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="Email Address" required>
+        <input type="image" src="images/icon-arrow.svg" alt="submit">
+        <p class="error-message hidden">Please provide a valid email</p>
       </form>
     </section>
 
-    <div class="hero">
+    <div class="dhero">
     </div>
     
 
     
     
   </main>
-
+  <script>
+    const error = document.querySelector('.error-message');
+    const email = document.querySelector('input[type="email"]');
+    email.addEventListener('invalid', function(e){
+      e.preventDefault();
+      email.classList.add('invalid');
+      error.classList.replace('hidden', 'shown');
+    })
+    email.addEventListener('onvalid', function(e) {
+      e.preventDefault();
+      email.classList.remove('invalid');
+      error.classList.replace('shown', 'hidden');
+    })
+  </script>
   
   
   
